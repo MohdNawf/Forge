@@ -1,0 +1,68 @@
+@import "tailwindcss";
+@theme {
+  --font-display: "Fraunces", Georgia, serif;
+  --font-sans: "Inter", system-ui, sans-serif;
+
+  --color-paper: #faf7f0;     /* warm off-white background */
+  --color-ink: #1a1814;       /* near-black text */
+  --color-acid: #c9f364;      /* electric lime accent */
+  --color-rule: #1a181422;    /* subtle borders */
+}
+
+body {
+  background: var(--color-paper);
+  color: var(--color-ink);
+  font-family: var(--font-sans);
+}
+
+h1, h2, h3 {
+  font-family: var(--font-display);
+  letter-spacing: -0.02em;
+}
+
+.forge-home {
+  background: var(--color-paper);
+}
+
+.marquee-strip {
+  border-top: 1px solid var(--color-rule);
+  border-bottom: 1px solid var(--color-rule);
+  background: #0f0f0d;
+  overflow: hidden;
+  white-space: nowrap;
+  padding: 14px 0;
+}
+
+.marquee-track {
+  display: inline-flex;
+  animation: forge-marquee 45s linear infinite;
+  will-change: transform;
+}
+
+.marquee-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 1rem;
+  padding-right: 1.8rem;
+  color: #f5f3ee;
+  font-family: var(--font-display);
+  font-size: clamp(1.7rem, 2.7vw, 2.5rem);
+  font-weight: 600;
+  line-height: 1;
+}
+
+@keyframes forge-marquee {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+@media (max-width: 768px) {
+  .marquee-item {
+    font-size: 1.5rem;
+    padding-right: 1.2rem;
+  }
+}
