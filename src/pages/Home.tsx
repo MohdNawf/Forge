@@ -119,12 +119,13 @@ export default function Home() {
 
         <div className="mt-12 grid gap-7 md:grid-cols-2">
           {cards.map((card) => (
-            <article
-              key={card.id}
-              className={`border border-rule bg-paper p-8 ${
-                card.highlighted ? "md:translate-y-4 md:shadow-[8px_8px_0_#111]" : ""
-              }`}
-            >
+           <article
+           key={card.id}
+           className={`border border-rule bg-paper p-8 transition
+             hover:shadow-[8px_8px_0_#111] ${
+               card.highlighted ? "hover:translate-y-4" : ""
+             }`}
+         >
               <div className="flex items-center justify-between">
                 <p className="font-mono text-xs uppercase tracking-[0.24em] text-ink/70">
                   {card.id} - {card.category}
@@ -170,7 +171,41 @@ export default function Home() {
             </article>
           ))}
         </div>
-      </section>
+      </section><section className="bg-[#0f0f0d] text-paper border-y border-rule px-6 py-24 text-center md:px-10">
+  <div className="mx-auto flex w-full max-w-[1200px] flex-col gap-16 md:text-left">
+    <div className="max-w-[760px]">
+      <p className="font-mono text-xs uppercase tracking-[0.28em] text-paper/70">
+        § 02 - How it works
+      </p>
+      <h2 className="mt-8 text-5xl leading-tight md:text-7xl">
+        Built around <span className="text-acid italic">requests</span>, not likes.
+      </h2>
+    </div>
+    <div className="grid gap-10 md:grid-cols-3 md:gap-12">
+      <div>
+        <p className="font-display text-6xl text-acid">01</p>
+        <h3 className="mt-4 text-xl font-semibold">Post the idea</h3>
+        <p className="mt-3 text-sm leading-relaxed text-paper/75">
+          Describe what you want to build, the technologies, and the roles you need on the team.
+        </p>
+      </div>
+      <div>
+        <p className="font-display text-6xl text-acid">02</p>
+        <h3 className="mt-4 text-xl font-semibold">Receive proposals</h3>
+        <p className="mt-3 text-sm leading-relaxed text-paper/75">
+          Builders apply with structured requests explaining what they bring — not just a “hey, I’m interested”.
+        </p>
+      </div>
+      <div>
+        <p className="font-display text-6xl text-acid">03</p>
+        <h3 className="mt-4 text-xl font-semibold">Form the team</h3>
+        <p className="mt-3 text-sm leading-relaxed text-paper/75">
+          Accept the people you want. Each project becomes a workspace with goals, tasks, and shared context.
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
 
       <section className="border-t border-rule px-6 py-24 text-center md:px-10">
         <p className="font-mono text-xs uppercase tracking-[0.28em] text-ink/70">

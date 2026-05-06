@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useState } from "react";
+import { Link } from "react-router-dom";
 import { useMutation, useQuery } from "convex/react";
 import { api } from "../../convex/_generated/api";
 import type { Id } from "../../convex/_generated/dataModel";
@@ -113,7 +114,18 @@ export default function MessagesRoute() {
                               : "border-rule bg-white text-ink"
                           }`}
                         >
-                          <p className="text-xs opacity-75">{mine ? "You" : message.senderId}</p>
+                          <p className="text-xs opacity-75">
+                            {mine ? (
+                              "You"
+                            ) : (
+                              <Link
+                                to={`/profile/${message.senderId}`}
+                                className="underline underline-offset-2 hover:opacity-90"
+                              >
+                                {message.senderName ?? message.senderId}
+                              </Link>
+                            )}
+                          </p>
                           <p className="mt-1 text-sm">{message.body}</p>
                         </div>
                       );

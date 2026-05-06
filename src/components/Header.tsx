@@ -1,9 +1,8 @@
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { useAuth } from "../lib/AuthContext";
 
 export default function Header() {
-  const { user, loading, signOut } = useAuth();
-  const navigate = useNavigate();
+  const { user, loading } = useAuth();
   return (
     <header className="border-b border-rule bg-paper px-6 py-4 md:px-10">
       <div className="mx-auto flex w-full max-w-[1200px] items-center justify-between gap-6">
@@ -19,18 +18,25 @@ export default function Header() {
         <Link to="/discover">Discover</Link>
         <Link to="/requests">Requests</Link>
         <Link to="/messages">Messages</Link>
-        <a href="#workspace">Workspace</a>
+        <Link to="/workspace">Workspace</Link>
       </nav>
       {user ? (
-        <button
-          onClick={async () => {
-            await signOut();
-            navigate("/");
-          }}
-          className="border border-rule px-4 py-2 text-sm hover:bg-ink hover:text-paper"
-        >
-          Sign out
-        </button>
+        <div className="flex items-center gap-3">
+          {!loading && (
+            <Link
+              to="/create"
+              className="bg-ink px-5 py-2 text-sm font-medium text-paper"
+            >
+              <span className="mr-2 text-acid">•</span>New project
+            </Link>
+          )}
+          <Link
+            to="/profile"
+            className="border border-ink px-4 py-2 text-sm font-medium text-ink hover:bg-ink hover:text-paper"
+          >
+            Profile
+          </Link>
+        </div>
       ) : (
         <div className="flex items-center gap-3">
           {!loading && (

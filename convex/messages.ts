@@ -82,11 +82,26 @@ export const getProjectMessages = query({
       throw new Error("You are not a member of this project chat.");
     }
 
-    return await ctx.db
+    const messages = await ctx.db
       .query("projectMessages")
       .withIndex("by_project", (q) => q.eq("projectId", args.projectId))
       .order("asc")
       .take(200);
+
+    const senderIds = Array.from(new Set(messages.map((m) => m.senderId)));
+    const senderNames: Record<string, string> = {};
+    for (const senderId of senderIds) {
+      const profile = await ctx.db
+        .query("profiles")
+        .withIndex("by_userId", (q) => q.eq("userId", senderId))
+        .unique();
+      senderNames[senderId] = profile?.displayName?.trim() || senderId;
+    }
+
+    return messages.map((m) => ({
+      ...m,
+      senderName: senderNames[m.senderId],
+    }));
   },
 });
 

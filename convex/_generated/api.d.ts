@@ -9,8 +9,12 @@
  */
 
 import type * as collabRequests from "../collabRequests.js";
+import type * as github from "../github.js";
 import type * as messages from "../messages.js";
+import type * as profiles from "../profiles.js";
 import type * as projects from "../projects.js";
+import type * as tasks from "../tasks.js";
+import type * as workspace from "../workspace.js";
 
 import type {
   ApiFromModules,
@@ -20,8 +24,12 @@ import type {
 
 declare const fullApi: ApiFromModules<{
   collabRequests: typeof collabRequests;
+  github: typeof github;
   messages: typeof messages;
+  profiles: typeof profiles;
   projects: typeof projects;
+  tasks: typeof tasks;
+  workspace: typeof workspace;
 }>;
 
 /**
