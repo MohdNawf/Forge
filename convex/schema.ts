@@ -7,6 +7,7 @@ export default defineSchema({
     tagline: v.string(),
     stack: v.array(v.string()),
     ownerId: v.string(),
+    recruitmentStatus: v.optional(v.union(v.literal("open"), v.literal("closed"))),
   }).index("by_owner", ["ownerId"]),
   projectTasks: defineTable({
     projectId: v.id("projects"),

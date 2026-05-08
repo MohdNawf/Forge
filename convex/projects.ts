@@ -32,7 +32,28 @@ export const createProject = mutation({
       tagline: args.tagline,
       stack: args.stack,
       ownerId: identity.subject,
+      recruitmentStatus: "open",
     });
+  },
+});
+
+export const setRecruitmentStatus = mutation({
+  args: {
+    projectId: v.id("projects"),
+    status: v.union(v.literal("open"), v.literal("closed")),
+  },
+  handler: async (ctx, args) => {
+    const identity = await ctx.auth.getUserIdentity();
+    if (!identity) throw new Error("You must be signed in.");
+
+    const project = await ctx.db.get(args.projectId);
+    if (!project) throw new Error("Project not found.");
+    if (project.ownerId !== identity.subject) {
+      throw new Error("Only the project owner can change recruitment.");
+    }
+
+    await ctx.db.patch(args.projectId, { recruitmentStatus: args.status });
+    return { ok: true };
   },
 });
 

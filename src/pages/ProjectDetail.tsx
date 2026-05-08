@@ -10,6 +10,7 @@ export default function ProjectDetail() {
   const navigate = useNavigate();
   const { user } = useAuth();
   const createCollabRequest = useMutation(api.collabRequests.createCollabRequest);
+  const setRecruitmentStatus = useMutation(((api as any).projects.setRecruitmentStatus as any));
   const createTask = useMutation(((api as any).tasks.createTask as any));
   const updateTaskStatus = useMutation(((api as any).tasks.updateTaskStatus as any));
   const assignTask = useMutation(((api as any).tasks.assignTask as any));
@@ -85,6 +86,11 @@ export default function ProjectDetail() {
     );
   }
 
+  const isLeader = Boolean(user && project.ownerId === user.id);
+  const recruitmentStatus: "open" | "closed" =
+    ((project as any).recruitmentStatus as any) ?? "open";
+  const recruitmentOpen = recruitmentStatus === "open";
+
   return (
     <div className="mx-auto max-w-3xl p-12">
       <Link to="/discover" className="text-sm text-ink/60 hover:text-ink">
@@ -92,8 +98,42 @@ export default function ProjectDetail() {
       </Link>
 
       <div className="mt-6 flex flex-wrap items-start justify-between gap-4">
-        <h1 className="text-6xl">{project.title}</h1>
-        {user && project.ownerId === user.id && (
+        <div className="min-w-0">
+          <h1 className="text-6xl">{project.title}</h1>
+          <div className="mt-4 flex flex-wrap items-center gap-3">
+            <span
+              className={`px-3 py-1 font-mono text-[10px] uppercase tracking-[0.18em] ${
+                recruitmentOpen ? "bg-acid text-ink" : "bg-ink text-paper"
+              }`}
+            >
+              {recruitmentOpen ? (
+                <>
+                  <span className="forge-blink-dot" aria-hidden="true" />
+                  Recruiting
+                </>
+              ) : (
+                "Recruitment closed"
+              )}
+            </span>
+
+            {isLeader && (
+              <button
+                onClick={async () => {
+                  if (!id) return;
+                  await setRecruitmentStatus({
+                    projectId: id as Id<"projects">,
+                    status: recruitmentOpen ? "closed" : "open",
+                  });
+                }}
+                className="border border-ink px-4 py-2 text-sm hover:bg-ink hover:text-paper"
+              >
+                {recruitmentOpen ? "Close recruitment" : "Re-open recruitment"}
+              </button>
+            )}
+          </div>
+        </div>
+
+        {isLeader && (
           <button
             onClick={async () => {
               if (!id) return;
@@ -319,6 +359,10 @@ export default function ProjectDetail() {
         <p className="mt-10 text-ink/60">
           ✓ Request sent. The owner will see it.
         </p>
+      ) : !recruitmentOpen ? (
+        <div className="mt-10 border border-rule bg-paper p-6">
+          <p className="text-ink/70">Recruitment is closed for this project.</p>
+        </div>
       ) : (
         <button
           onClick={apply}

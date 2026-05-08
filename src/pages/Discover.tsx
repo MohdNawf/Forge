@@ -18,7 +18,7 @@ export default function Discover() {
               title: p.title,
               tagline: p.tagline,
               stack: p.stack,
-              lookingFor: [],
+              recruitmentStatus: (p as any).recruitmentStatus ?? "open",
             }}
           />
         ))}

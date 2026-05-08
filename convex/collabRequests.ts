@@ -13,6 +13,9 @@ export const createCollabRequest = mutation({
     if (!project) {
       throw new Error("Project not found.");
     }
+    if (project.recruitmentStatus === "closed") {
+      throw new Error("Recruitment is closed for this project.");
+    }
     if (project.ownerId === identity.subject) {
       throw new Error("You cannot request your own project.");
     }

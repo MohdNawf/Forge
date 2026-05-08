@@ -60,6 +60,27 @@ h1, h2, h3 {
   }
 }
 
+.forge-blink-dot {
+  display: inline-block;
+  width: 0.45rem;
+  height: 0.45rem;
+  border-radius: 9999px;
+  background: currentColor;
+  margin-right: 0.45rem;
+  animation: forge-blink 1s steps(2, end) infinite;
+}
+
+@keyframes forge-blink {
+  0%,
+  45% {
+    opacity: 1;
+  }
+  50%,
+  100% {
+    opacity: 0;
+  }
+}
+
 @media (max-width: 768px) {
   .marquee-item {
     font-size: 1.5rem;
